@@ -41,7 +41,6 @@
   <link href="images/webclip.png" rel="apple-touch-icon">
   <script src="https://js.stripe.com/v3/"></script>
   <script src="js/early-access.js" type="text/javascript"></script>
-  <script src="js/scirpt.js" type="text/javascript"></script>
   <!--  Meta Pixel Code  -->
   <script>
     !function (f, b, e, v, n, t, s) {
@@ -94,14 +93,6 @@
     <div class="global-styles w-embed">
       <style>
         /* Make text look crisper and more legible in all browsers */
-        .dcard-err {
-          color: rgb(0, 0, 0);
-          text-align: left;
-          font-size: 13px;
-          line-height: 17px;
-          margin-top: 12px;
-        }
-
         body {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
@@ -330,17 +321,17 @@ a,
         <div class="div-block-443">
           <h1 class="heading-178">Enter Your Email</h1>
           <div class="form-block-3 w-form">
-            <form id="eventThree2" name="email-form" data-name="Email Form" action="" method="post" class="form-2">
+            <form id="eventThree2" name="email-form" data-name="Email Form" action="/submit" method="post"
+              class="form-2">
               <input type="email" class="text-field-3 w-input" maxlength="256" name="Email-2" data-name="Email 2"
                 placeholder="johndoe@gmail.com" id="Email-2" required="">
-              <input type="button" value="Submit" data-wait="Please wait..." class="button-2 popup w-button"
-                onclick="userSubmit()">
+              <input type="submit" value="Submit" data-wait="Please wait..." class="button-2 popup w-button">
             </form>
-            <div class="w-form-done" id="email-okay">
+            <div class="w-form-done">
               <div>Thank you! Your submission has been received!</div>
             </div>
-            <div class="w-form-fail" id="email-notokay">
-              <div id="email-errors">Oops! Something went wrong while submitting the form.</div>
+            <div class="w-form-fail">
+              <div id="card-errors">Oops! Something went wrong while submitting the form.</div>
             </div>
           </div>
         </div><img src="images/close-icon.svg" loading="lazy" data-w-id="cae810a6-b024-563e-534e-a4d31e3c5a70" alt=""
@@ -375,19 +366,158 @@ a,
                               data-name="Name 3" placeholder="0000 0000 0000 000" id="name-3"> -->
                           </div>
                           <div class="spinner hidden" id="spinner"></div>
-                          <p id="card-error" class="card-err" role="alert"></p>
                           <div class="duplicate-btn">
-                            <button id="submit" class="arrow-btn w-button"> <span id="button-text">SUBMIT<img
-                                  src="images/arrow.svg" loading="lazy" alt="" class="arrow-2"></span></button>
-
+                            <!-- <div class="btn-text">SUBMIT</div><img src="images/arrow.svg" loading="lazy" alt="" class="arrow-2"> -->
+                            <button id="submit" class=" arrow-btn w-button"> <span id="button-text">Pay now</span></button>
+                              <p id="card-error" role="alert"></p>
                           </div>
                         </form>
-                        <div class="w-form-done" id="card-success">
+                        <div class="w-form-done">
                           <div>Thank you! Your submission has been received!</div>
                         </div>
-                        <div class="w-form-fail" id="card-errors">
+                        <div class="w-form-fail">
                           <div>Oops! Something went wrong while submitting the form.</div>
                         </div>
+                        <!-- <form id="payment-form">
+                          <div class="form-row">
+                            <label for="card-element">
+                              Credit or debit card
+                            </label>
+                            <div id="card-element">
+                              A Stripe Element will be inserted here. 
+                            </div>
+
+                             Used to display Element errors.
+                            <div id="card-errors" role="alert"></div>
+                          </div>
+
+                          <div class="form-row">
+                            <label for="name-on-card">Name on Card</label>
+                            <input type="text" id="name-on-card" name="name-on-card">
+                          </div>
+
+                          <button id="submit-payment">Submit Payment</button>
+                        </form> -->
+                        <script>
+
+                          // Create a Stripe client
+                          //var stripe = Stripe('pk_test_51MZy8TSGOJPd1sa9jLfI9tXFj3vb37UqWrQ4k3xEc2Zg57VK4XjcNrozunRJJwcQUQyccF7N14RfnMNi0nTuaLzU00jGacoMhi');
+
+                          // // Create an instance of Elements
+                          // var elements = stripe.elements();
+
+                          // // Custom styling can be passed to options when creating an Element.
+                          // var style = {
+                          //   base: {
+                          //     // Add your base input styles here
+                          //     fontSize: '16px',
+                          //     color: '#32325d',
+                          //   }
+                          // };
+
+                          // // Create an instance of the card Element
+                          // var card = elements.create('card', { style: style });
+
+                          // // Add an instance of the card Element into the `card-element` <div>
+                          // card.mount('#card-element');
+
+                          // // Handle real-time validation errors from the card Element
+                          // card.addEventListener('change', function (event) {
+                          //   var displayError = document.getElementById('card-errors');
+                          //   if (event.error) {
+                          //     displayError.textContent = event.error.message;
+                          //   } else {
+                          //     displayError.textContent = '';
+                          //   }
+                          // });
+
+                          // // Handle form submission
+                          // document.getElementById('payment-form').addEventListener('submit', function (event) {
+                          //   event.preventDefault();
+
+                          //   // Disable the submit button to prevent repeated clicks
+                          //   document.getElementById('submit-payment').disabled = true;
+
+                          //   // Get the Stripe token for the card Element
+                          //   stripe.createToken(card).then(function (result) {
+                          //     if (result.error) {
+                          //       // Inform the user if there was an error
+                          //       var errorElement = document.getElementById('card-errors');
+                          //       errorElement.textContent = result.error.message;
+
+                          //       // Enable the submit button
+                          //       document.getElementById('submit-payment').disabled = false;
+                          //     } else {
+                          //       // Send the token to your server
+                          //       stripeTokenHandler(result.token);
+                          //     }
+                          //   });
+                          // });
+
+                          // // Send the token to your server
+                          // function stripeTokenHandler(token) {
+                          //   // Create a hidden input to hold the token value
+                          //   var hiddenInput = document.createElement('input');
+                          //   hiddenInput.setAttribute('type', 'hidden');
+                          //   hiddenInput.setAttribute('name', 'stripeToken');
+                          //   hiddenInput.setAttribute('value', token.id);
+
+                          //   // Add the hidden input to the form
+                          //   var form = document.getElementById('payment-form');
+                          //   form.appendChild(hiddenInput);
+
+                          //   // Submit the form
+                          //   form.submit();
+                          // }
+
+                          // $(document).ready(function () {
+                          //   // Initialize Stripe.js
+                          //   var stripe = Stripe('pk_test_51MZy8TSGOJPd1sa9jLfI9tXFj3vb37UqWrQ4k3xEc2Zg57VK4XjcNrozunRJJwcQUQyccF7N14RfnMNi0nTuaLzU00jGacoMhi');
+                          //   var elements = stripe.elements();
+
+                          //   // Create a card element and mount it to the DOM
+                          //   var cardElement = elements.create('card');
+                          //   cardElement.mount('#card-element');
+
+                          //   // Handle form submission
+                          //   $('#paymentform').on('submit', function (event) {
+                          //     event.preventDefault();
+
+                          //     // Disable the submit button to prevent multiple submissions
+                          //     $('.arrow-btn').prop('disabled', true);
+
+                          //     // Collect card details and create a token
+                          //     stripe.createToken(cardElement).then(function (result) {
+                          //       if (result.error) {
+                          //         // Show error message
+                          //         console.log(result.error.message);
+                          //       } else {
+                          //         // Send token to backend for processing
+                          //         var token = result.token;
+                          //         $.ajax({
+                          //           url: 'your_backend_url',
+                          //           method: 'POST',
+                          //           data: {
+                          //             token: token.id
+                          //           },
+                          //           success: function (response) {
+                          //             // Show success message
+                          //             console.log('Payment successful');
+                          //           },
+                          //           error: function (response) {
+                          //             // Show error message
+                          //             console.log('Payment failed');
+                          //           }
+                          //         });
+                          //       }
+                          //     });
+                          //   });
+                          // });
+
+
+                        </script>
+
+
 
                       </div>
                     </div>
@@ -461,97 +591,54 @@ a,
       items: [{ id: "xl-tshirt" }]
     };
 
-    // var elements = stripe.elements();
-    //       var style = {
-    //         base: {
-    //           color: "#32325d",
-    //           fontFamily: 'Arial, sans-serif',
-    //           fontSmoothing: "antialiased",
-    //           fontSize: "16px",
-    //           "::placeholder": {
-    //             color: "#32325d"
-    //           }
-    //         },
-    //         invalid: {
-    //           fontFamily: 'Arial, sans-serif',
-    //           color: "#fa755a",
-    //           iconColor: "#fa755a"
-    //         }
-    //       };
-
-    //       var card = elements.create("card", { style: style });
-    //       // Stripe injects an iframe into the DOM
-    //       card.mount("#card-element");
-
-    //       card.on("change", function (event) {
-    //         // Disable the Pay button if there are no card details in the Element
-    //         document.querySelector("button").disabled = event.empty;
-    //         document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
-    //       });
-
-
-
     // Disable the button until we have Stripe set up on the page
-    const button = document.querySelector("button");
-
-    //button.addEventListener("click", () => {
-      // Disable the button to prevent multiple clicks
-      button.disabled = true;
-      fetch("http://localhost:3000/create-payment-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(purchase)
+    document.querySelector("button").disabled = true;
+    fetch("http://localhost:3000/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(purchase)
+    })
+      .then(function (result) {
+        return result.json();
       })
-        .then(function (result) {
-          return result.json();
-        })
-        .then(function (data) {
-          var elements = stripe.elements();
-          var style = {
-            base: {
-              color: "#32325d",
-              fontFamily: 'Arial, sans-serif',
-              fontSmoothing: "antialiased",
-              fontSize: "16px",
-              "::placeholder": {
-                color: "#32325d"
-              }
-            },
-            invalid: {
-              fontFamily: 'Arial, sans-serif',
-              color: "#fa755a",
-              iconColor: "#fa755a"
+      .then(function (data) {
+        var elements = stripe.elements();
+        var style = {
+          base: {
+            color: "#32325d",
+            fontFamily: 'Arial, sans-serif',
+            fontSmoothing: "antialiased",
+            fontSize: "16px",
+            "::placeholder": {
+              color: "#32325d"
             }
-          };
+          },
+          invalid: {
+            fontFamily: 'Arial, sans-serif',
+            color: "#fa755a",
+            iconColor: "#fa755a"
+          }
+        };
 
-          var card = elements.create("card", { style: style });
-          // Stripe injects an iframe into the DOM
-          card.mount("#card-element");
+        var card = elements.create("card", { style: style });
+        // Stripe injects an iframe into the DOM
+        card.mount("#card-element");
 
-          card.on("change", function (event) {
-            // Disable the Pay button if there are no card details in the Element
-            document.querySelector("button").disabled = event.empty;
-            document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
-          });
+        card.on("change", function (event) {
+          // Disable the Pay button if there are no card details in the Element
+          document.querySelector("button").disabled = event.empty;
+          document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+        });
 
-          var form = document.getElementById("payment-form");
-          form.addEventListener("submit", function (event) {
-            event.preventDefault();
-            // Complete payment when the submit button is clicked
-            payWithCard(stripe, card, data.clientSecret);
-          });
-        })
-        // .catch(error => {
-        //   // Handle errors
-        //   console.error(error);
-        // })
-        // .finally(() => {
-        //   // Enable the button
-        //   button.disabled = false;
-        // });
-    //});
+        var form = document.getElementById("payment-form");
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          // Complete payment when the submit button is clicked
+          payWithCard(stripe, card, data.clientSecret);
+        });
+      });
 
     // Calls stripe.confirmCardPayment
     // If the card requires authentication Stripe shows a pop-up modal to
@@ -571,7 +658,6 @@ a,
           } else {
             // The payment succeeded!
             orderComplete(result.paymentIntent.id);
-            localStorage.setItem("transaction", JSON.stringify(result.paymentIntent.id));
           }
         });
     };
@@ -581,35 +667,25 @@ a,
     // Shows a success message when the payment is complete
     var orderComplete = function (paymentIntentId) {
       loading(false);
-
-      var successElement = document.getElementById('card-success')
-      successElement.textContent =
-        'Thank you! Your submission has been received!'
-      successElement.style.display = 'block'
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent =
-        'Oops! Something went wrong while submitting the form.'
-      errorElement.style.display = 'none'
-      //document.querySelector(".result-message").classList.remove("hidden");
+      document
+        .querySelector(".result-message a")
+        .setAttribute(
+          "href",
+          "https://dashboard.stripe.com/test/payments/" + paymentIntentId
+        );
+      document.querySelector(".result-message").classList.remove("hidden");
       document.querySelector("button").disabled = true;
-      window.location.replace('thank-you.html')
     };
 
     // Show the customer the error from Stripe if their card fails to charge
     var showError = function (errorMsgText) {
       loading(false);
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent =
-        'Oops! Something went wrong while submitting the form.'
-      errorElement.style.display = 'block'
       var errorMsg = document.querySelector("#card-error");
       errorMsg.textContent = errorMsgText;
       setTimeout(function () {
         errorMsg.textContent = "";
-        errorElement.style.display = 'none'
       }, 4000);
     };
-
 
     // Show a spinner on payment submission
     var loading = function (isLoading) {
@@ -625,10 +701,128 @@ a,
       }
     };
 
+    //Stripe Payment
+    // async function  onSubmit(){
+    //   event.preventDefault()
+    //     alert("This was submit", cardElement)
+    //     const charge = await stripe.createPaymentMethod({
+    //       type: 'card',
+    //       card: cardElement,
+    //     })
+    //     if (charge.error) {
+    //       var errorElement = document.getElementById('card-errors')
+    //       errorElement.textContent = charge.error.message
+    //       errorElement.style.display = 'block'
+    //       return
+    //     }
+    //     await axios
+    //       .post('/charge', {})
+    //       .then(async (response) => {
+    //         const { error } = await stripe.confirmCardPayment(
+    //           response.data.clientSecret,
+    //           {
+    //             payment_method: charge.paymentMethod.id,
+    //           }
+    //         )
+    //         if (error) {
+    //           //console.log("Failed: " + error)
+    //           var errorElement = document.getElementById('card-errors')
+    //           errorElement.textContent =
+    //             'Oops! Something went wrong while submitting the form.'
+    //           errorElement.style.display = 'block'
+    //           return
+    //         } else {
+    //           var errorElement = document.getElementById('card-success')
+    //           window.location.replace('/thank-you')
+    //           errorElement.textContent =
+    //             'Thank you! Your submission has been received!'
+    //           errorElement.style.display = 'block'
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         var errorElement = document.getElementById('card-errors')
+    //         errorElement.textContent =
+    //           'Oops! Something went wrong while submitting the form.'
+    //         errorElement.style.display = 'block'
+    //         //console.log("Failed: " + err)
+    //       })
 
+    // }
+    // document.addEventListener('DOMContentLoaded', async () => {
+    //   console.log("Content Loader")
+    //   const stripe = Stripe(
+    //     'pk_test_51MZy8TSGOJPd1sa9jLfI9tXFj3vb37UqWrQ4k3xEc2Zg57VK4XjcNrozunRJJwcQUQyccF7N14RfnMNi0nTuaLzU00jGacoMhi'
+    //   )
+    //   var elements = stripe.elements()
+    //   var style = {
+    //     base: {
+    //       fontSize: '16px',
+    //       color: '#32325d',
+    //     },
+    //   }
+    //   var cardElement = elements.create('card', { style: style })
+    //   cardElement.mount('#card-element')
+    //   console.log("This is card data", cardElement)
+    //   var form = document.getElementById('paymentform')
+
+    //   form.addEventListener('submit', async function (event) {
+    //     event.preventDefault()
+    //     //alert("This was submit", cardElement)
+    //     const charge = await stripe.createPaymentMethod({
+    //       type: 'card',
+    //       card: cardElement,
+    //     })
+    //     console.log("charge", charge);
+    //     if (charge.error) {
+    //       console.log("error");
+    //       var errorElement = document.getElementById('card-errors')
+    //       errorElement.innerHTML = charge.error.message
+    //       errorElement.style.display = 'block'
+    //       console.log('charge', charge, 'error', charge.error, 'err', charge.err);
+    //       return
+    //     }
+    //     var body = {
+    //       clientSecret: response.data.clientSecret, payment_method: charge.paymentMethod.id
+    //     }
+    //     await axios
+    //       .post('http://localhost:3000/charge', body)
+    //       .then(async (response) => {
+    //         console.log("The Respone", response)
+    //         // const { error } = await stripe.confirmCardPayment(
+    //         //   response.data.clientSecret,
+    //         //   {
+    //         //     payment_method: charge.paymentMethod.id,
+    //         //   }
+
+    //         //)
+    //         // if (error) {
+    //         //   //console.log("Failed: " + error)
+    //         //   var errorElement = document.getElementById('card-errors')
+    //         //   errorElement.textContent =
+    //         //     'Oops! Something went wrong while submitting the form.'
+    //         //   errorElement.style.display = 'block'
+    //         //   return
+    //         // } else {
+    //         //   var errorElement = document.getElementById('card-success')
+    //         //   window.location.replace('/thank-you')
+    //         //   errorElement.textContent =
+    //         //     'Thank you! Your submission has been received!'
+    //         //   errorElement.style.display = 'block'
+    //         // }
+    //       })
+    //       .catch((err) => {
+    //         var errorElement = document.getElementById('card-errors')
+    //         errorElement.textContent =
+    //           'Oops! Something went wrong while submitting the form.'
+    //         errorElement.style.display = 'block'
+    //         //console.log("Failed: " + err)
+    //       })
+
+    //   })
+    // })
 
   </script>
-  <!-- <script>
+  <script>
     //Server Side Tracking Function
     async function serverSideTracking(eventName, eventUrl, eventId) {
       await axios
@@ -649,7 +843,7 @@ a,
       serverSideTracking("Early Access Page Submit Button Click", window.location.href, "5");
       fbq("trackCustom", "Early Access Page Submit Button Click", { eventID: "5" });
     });
-  </script> -->
+  </script>
 </body>
 
 </html>
