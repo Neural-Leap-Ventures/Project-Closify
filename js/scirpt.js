@@ -1,5 +1,8 @@
 async function userSubmit() {
-    let email = document.getElementById("Email-2").value;
+  var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  let email = document.getElementById("Email-2").value;
+  if (email.match(validRegex)) {
+
     url = "http://localhost:3000/api/submit-user-email";
     var content = "";
     const response = await fetch(url, {
@@ -16,10 +19,35 @@ async function userSubmit() {
     });
     content = await response.json();
     console.log(content);
-    if (content.statusCode == 302){
+
+    if (content.statusCode == 302) {
+      setTimeout(() => {
+        const okaymesgshow = document.getElementById("email-okay");
+        okaymesgshow.style.display = "block";
+        const dissapermesgshow = document.getElementById("email-notokay");
+        dissapermesgshow.style.display = "none";
+      }, 5000);
       window.location.replace('early-access.html')
-    }else{
+    } else {
+      setTimeout(() => {
+        const dissapermesgshow = document.getElementById("email-notokay");
+        dissapermesgshow.style.display = "none";
+        const okaymesgshow = document.getElementById("email-okay");
+        okaymesgshow.style.display = "block";
+      }, 5000);
       window.location.replace('early-access.html')
     }
+  } else {
+    document.getElementById("Email-2").focus()
+    setTimeout(() => {
+      const dissapermesgshow = document.getElementById("email-notokay");
+      dissapermesgshow.style.display = "block";
+    }, 5000);
+
   }
-  
+}
+
+
+
+
+
